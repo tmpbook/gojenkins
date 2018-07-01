@@ -1,8 +1,8 @@
 # Jenkins API Client for Go
 
-[![GoDoc](https://godoc.org/github.com/bndr/gojenkins?status.svg)](https://godoc.org/github.com/bndr/gojenkins)
-[![Go Report Cart](https://goreportcard.com/badge/github.com/bndr/gojenkins)](https://goreportcard.com/report/github.com/bndr/gojenkins)
-[![Build Status](https://travis-ci.org/bndr/gojenkins.svg?branch=master)](https://travis-ci.org/bndr/gojenkins)
+[![GoDoc](https://godoc.org/github.com/tmpbook/gojenkins?status.svg)](https://godoc.org/github.com/tmpbook/gojenkins)
+[![Go Report Cart](https://goreportcard.com/badge/github.com/tmpbook/gojenkins)](https://goreportcard.com/report/github.com/tmpbook/gojenkins)
+[![Build Status](https://travis-ci.org/tmpbook/gojenkins.svg?branch=master)](https://travis-ci.org/tmpbook/gojenkins)
 
 ## About
 
@@ -10,23 +10,22 @@ Jenkins is the most popular Open Source Continuous Integration system. This Libr
 
 These are some of the features that are currently implemented:
 
-* Get information on test-results of completed/failed build
-* Ability to query Nodes, and manipulate them. Start, Stop, set Offline.
-* Ability to query Jobs, and manipulate them.
-* Get Plugins, Builds, Artifacts, Fingerprints
-* Validate Fingerprints of Artifacts
-* Get Current Queue, Cancel Tasks
-* etc. For all methods go to GoDoc Reference.
+- Get information on test-results of completed/failed build
+- Ability to query Nodes, and manipulate them. Start, Stop, set Offline.
+- Ability to query Jobs, and manipulate them.
+- Get Plugins, Builds, Artifacts, Fingerprints
+- Validate Fingerprints of Artifacts
+- Get Current Queue, Cancel Tasks
+- etc. For all methods go to GoDoc Reference.
 
 ## Installation
 
-    go get github.com/bndr/gojenkins
+    go get github.com/tmpbook/gojenkins
 
 ## Usage
 
 ```go
-
-import "github.com/bndr/gojenkins"
+import "github.com/tmpbook/gojenkins"
 
 jenkins := gojenkins.CreateJenkins(nil, "http://localhost:8080/", "admin", "admin")
 // Provide CA certificate if server is using self-signed certificate
@@ -78,17 +77,16 @@ configString := `<?xml version='1.0' encoding='UTF-8'?>
 </project>`
 
 j.CreateJob(configString, "someNewJobsName")
-
-
 ```
 
-API Reference: https://godoc.org/github.com/bndr/gojenkins
+API Reference: https://godoc.org/github.com/tmpbook/gojenkins
 
 ## Examples
 
 For all of the examples below first create a jenkins object
+
 ```go
-import "github.com/bndr/gojenkins"
+import "github.com/tmpbook/gojenkins"
 
 jenkins, _ := gojenkins.CreateJenkins(nil, "http://localhost:8080/", "admin", "admin").Init()
 ```
@@ -122,7 +120,6 @@ for _, node := range nodes {
 		fmt.Println("Node is Online")
 	}
 }
-
 ```
 
 ### Get all Builds for specific Job, and check their status
@@ -157,25 +154,21 @@ if err != nil {
 
 job.GetLastSuccessfulBuild()
 job.GetLastStableBuild()
-
 ```
 
 ### Get Current Tasks in Queue, and the reason why they're in the queue
 
 ```go
-
 tasks := jenkins.GetQueue()
 
 for _, task := range tasks {
 	fmt.Println(task.GetWhy())
 }
-
 ```
 
 ### Create View and add Jobs to it
 
 ```go
-
 view, err := jenkins.CreateView("test_view", gojenkins.LIST_VIEW)
 
 if err != nil {
@@ -187,13 +180,11 @@ status, err := view.AddJob("jobName")
 if status != nil {
   fmt.Println("Job has been added to view")
 }
-
 ```
 
 ### Create nested Folders and create Jobs in them
 
 ```go
-
 // Create parent folder
 pFolder, err := jenkins.CreateFolder("parentFolder")
 if err != nil {
@@ -233,13 +224,11 @@ if err != nil {
 if job != nil {
 	fmt.Println("Job has been created in child folder")
 }
-
 ```
 
 ### Get All Artifacts for a Build and Save them to a folder
 
 ```go
-
 job, _ := jenkins.GetJob("job")
 build, _ := job.GetBuild(1)
 artifacts := build.GetArtifacts()
@@ -247,19 +236,16 @@ artifacts := build.GetArtifacts()
 for _, a := range artifacts {
 	a.SaveToDir("/tmp")
 }
-
 ```
 
 ### To always get fresh data use the .Poll() method
 
 ```go
-
 job, _ := jenkins.GetJob("job")
 job.Poll()
 
 build, _ := job.getBuild(1)
 build.Poll()
-
 ```
 
 ## Testing
@@ -274,9 +260,9 @@ All Contributions are welcome. The todo list is on the bottom of this README. Fe
 
 Although the basic features are implemented there are many optional features that are on the todo list.
 
-* Kerberos Authentication
-* CLI Tool
-* Rewrite some (all?) iterators with channels
+- Kerberos Authentication
+- CLI Tool
+- Rewrite some (all?) iterators with channels
 
 ## LICENSE
 
